@@ -1,0 +1,13 @@
+services:
+  gh-2-local:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gh-2-local:latest
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      GH_2_LOCAL_ROOT: /data/repos
+      GH_2_LOCAL_DB: /data/repos.db
+    volumes:
+      - ./data:/data
+    command: ["list"]

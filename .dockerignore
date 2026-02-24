@@ -1,0 +1,10 @@
+.git
+.gitignore
+node_modules
+dist
+dist-test
+repos
+repos.db
+data
+npm-debug.log*
+flake.lock
