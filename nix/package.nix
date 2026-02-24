@@ -41,6 +41,11 @@ buildNpmPackage rec {
     homepage = "https://github.com";
     license = lib.licenses.mit;
     mainProgram = "gh-2-local";
-    platforms = lib.platforms.unix;
+    platforms = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
   };
 }

@@ -7,7 +7,15 @@
   };
 
   outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+    let
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+    in
+    flake-utils.lib.eachSystem supportedSystems (system:
       let
         pkgs = import nixpkgs { inherit system; };
         gh2local = pkgs.callPackage ./nix/package.nix { };
@@ -22,6 +30,8 @@
           drv = gh2local;
           exePath = "/bin/gh-2-local";
         };
+
+        checks.default = gh2local;
 
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [

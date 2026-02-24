@@ -1,6 +1,6 @@
 # gh-2-local
 
-`gh-2-local` is a CLI tool that mirrors GitHub repositories to your local machine and keeps them up to date.
+`gh-2-local` is a CLI tool that mirrors GitHub repositories to your local machine and keeps them up to date, because what if GitHub decides to delete your account.
 
 It uses a GitHub Personal Access Token (PAT) for GitHub API discovery, clones repositories to disk, and tracks local state in SQLite.
 
@@ -47,6 +47,13 @@ Install into profile:
 ```bash
 nix profile install .#gh-2-local
 ```
+
+Supported Nix systems:
+
+- `x86_64-linux`
+- `aarch64-linux`
+- `x86_64-darwin`
+- `aarch64-darwin`
 
 ## Configuration
 
@@ -148,8 +155,10 @@ docker compose run --rm gh-2-local sync
 ## Development
 
 ```bash
+npm run lint
 npm run build
 npm test
+npm run check
 ```
 
 ## Documentation

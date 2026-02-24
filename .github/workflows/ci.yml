@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  node-checks:
+    name: Node Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+  nix-checks:
+    name: Nix Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Flake check
+        run: nix --extra-experimental-features "nix-command flakes" flake check --print-build-logs
+
+      - name: Build package
+        run: nix --extra-experimental-features "nix-command flakes" build .#gh-2-local --print-build-logs
+
+      - name: Verify exposed systems
+        run: |
+          nix --extra-experimental-features "nix-command flakes" eval .#packages.x86_64-linux.gh-2-local.pname
+          nix --extra-experimental-features "nix-command flakes" eval .#packages.aarch64-linux.gh-2-local.pname
+          nix --extra-experimental-features "nix-command flakes" eval .#packages.x86_64-darwin.gh-2-local.pname
+          nix --extra-experimental-features "nix-command flakes" eval .#packages.aarch64-darwin.gh-2-local.pname
