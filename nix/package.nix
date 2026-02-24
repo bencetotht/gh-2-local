@@ -38,7 +38,7 @@ buildNpmPackage rec {
 
   meta = {
     description = "CLI to sync and pull GitHub repositories into local storage";
-    homepage = "https://github.com";
+    homepage = "https://github.com/bencetotht/gh-2-local";
     license = lib.licenses.mit;
     mainProgram = "gh-2-local";
     platforms = [
