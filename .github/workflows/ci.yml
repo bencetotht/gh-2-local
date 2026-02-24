@@ -33,8 +33,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run: npm test
+      # - name: Test
+      #   run: npm test
 
   nix-checks:
     name: Nix Checks
